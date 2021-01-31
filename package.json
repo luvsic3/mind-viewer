@@ -5,10 +5,12 @@
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "ts-standard",
     "build": "rm -rf ./dist && node_modules/.bin/tsc"
   },
   "license": "MIT",
   "devDependencies": {
+    "ts-standard": "^10.0.0",
     "typescript": "^3.7.3"
   },
   "dependencies": {

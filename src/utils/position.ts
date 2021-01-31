@@ -1,4 +1,5 @@
 export default interface Position {
+  // center point of rect
   x: number
   y: number
 }

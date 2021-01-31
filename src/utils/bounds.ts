@@ -2,6 +2,7 @@ import Size from './size'
 import Position from './position'
 
 interface Bounds {
+  // top left corner of rect
   x: number
   y: number
   width: number
