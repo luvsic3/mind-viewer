@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
     "target": "es2016",
-    "module": "commonjs",
-    "resolveJsonModule": true,
+    "module": "ESNext",
     "esModuleInterop": true,
+    "jsx": "react",
+    "jsxFactory": "h",     
     "declaration": true,
     "outDir": "dist/",
     "rootDir": "src/",
@@ -29,6 +30,7 @@
       ]
     }
   },
+  "include": ["src/**/*.tsx", "src/**/*.ts"],
   "exclude": [
     "dist",
     "node_modules",
