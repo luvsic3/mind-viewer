@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import View from './view'
 import ViewType from '../common/constants/views'
 import { Path, SVG } from '@svgdotjs/svg.js'
@@ -24,26 +25,19 @@ export interface ConnectionViewData {
   maskInfo?: MaskInfo
 }
 
-export default class ConnectionView extends View {
+export default class ConnectionView extends View<ConnectionViewData> {
 
   type = ViewType.CONNECTION
 
   private readonly _svg: Path
 
-  constructor() {
-    super()
+  constructor(props: ConnectionViewData) {
+    super(props)
     this._svg = new Path().data('name', 'connection')
   }
 
-  render(data: ConnectionViewData, parent: SheetView) {
-    if (!parent) return
-
-    const { d, fill, stroke, strokeWidth, maskInfo } = data
-
-    this._svg.attr({ d })
-    this._svg.attr({ fill })
-    this._svg.attr({ stroke })
-    this._svg.attr({ 'stroke-width': strokeWidth })
+  render() {
+    const { d, fill, stroke, strokeWidth, maskInfo } = this.props;
 
     if (maskInfo) {
       const masking = parent.canvas.clip()
@@ -59,12 +53,10 @@ export default class ConnectionView extends View {
         this._svg.clipWith(masking)
       }
     }
-
-    parent.appendChild(this)
+    return (
+      <path name="connection" d={d} fill={fill} stroke={stroke} strokeWidth={strokeWidth}>
+        
+      </path>
+    )
   }
-
-  get content() {
-    return this._svg
-  }
-
 }

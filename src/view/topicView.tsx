@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import View from './view'
 import ViewType from '../common/constants/views'
 import Position, { isSamePosition } from '../utils/position'
@@ -48,7 +49,6 @@ export default class TopicView extends View {
 
   constructor() {
     super()
-    this._svg = new G().data('name', 'topic')
     this._initSVGStructure()
   }
 
@@ -126,9 +126,7 @@ export default class TopicView extends View {
     return getTopicShape(this.topicShapeClass)
   }
 
-  render(parentView: View) {
-    if (!parentView) return
-
+  render() {
     // Topic Shape
     if (this.topicShapePathDirty) {
       this._topicShape.attr({ d: this.topicShapePath })
@@ -148,8 +146,11 @@ export default class TopicView extends View {
       this._topicContent.translate(this.topicContentPosition.x, this.topicContentPosition.y)
       this.topicContentPositionDirty = false
     }
+    return (
+      <g name="topic">
 
-    parentView.appendChild(this)
+      </g>
+    )
   }
 
   appendChild(view: View) {
@@ -164,5 +165,4 @@ export default class TopicView extends View {
   get content() {
     return this._svg
   }
-
 }

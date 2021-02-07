@@ -1,21 +1,13 @@
 import ViewControllerType from '../common/constants/viewControllers'
 import View from '../view/view'
 import Model from '../model/model'
+import { Component } from 'preact'
 
-export default abstract class ViewController {
-
-  private readonly _parent: ViewController
-
-  constructor(parent: ViewController) {
-    this._parent = parent
+export default abstract class ViewController<P = any> extends Component<P> {
+  constructor(props?: P) {
+    super(props)
   }
 
   abstract get type(): ViewControllerType
-  abstract get view(): View
   abstract get model(): Model
-
-  get parent(): ViewController {
-    return this._parent
-  }
-
 }

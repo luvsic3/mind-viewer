@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import ViewController from './viewController'
 import BranchViewController from './branchViewController'
 import Sheet from '../model/sheet'
@@ -9,7 +10,6 @@ import { StyleKey } from '../common/constants/styles'
 export default class SheetViewController extends ViewController {
 
   private readonly _sheet: Sheet
-  private readonly _view: SheetView
 
   private _centralBranchViewController: BranchViewController
   private _multiLineColors: string
@@ -18,8 +18,6 @@ export default class SheetViewController extends ViewController {
   constructor(sheet: Sheet) {
     super(null)
     this._sheet = sheet
-    this._view = new SheetView()
-
     this._initStyle()
   }
 
@@ -27,8 +25,6 @@ export default class SheetViewController extends ViewController {
     this._centralBranchViewController = new BranchViewController(this._sheet.rootTopic, this)
     this._centralBranchViewController.sheetViewController = this
     this._centralBranchViewController.init()
-
-    this._view.render({ bgColor: this._bgColor, bounds: this._centralBranchViewController.bounds })
   }
 
   private _initStyle() {
@@ -38,10 +34,6 @@ export default class SheetViewController extends ViewController {
 
   get type() {
     return ViewControllerType.SHEET
-  }
-
-  get view(): SheetView {
-    return this._view
   }
 
   get model() {
@@ -64,16 +56,15 @@ export default class SheetViewController extends ViewController {
     return this._centralBranchViewController
   }
 
-  get content() {
-    return this.view.content
-  }
-
-  getCanvas() {
-    return this.view.canvas
-  }
-
   transform(x: number, y: number) {
     this.view.canvas.translate(x, y)
   }
 
+  render() {
+    return (
+      <SheetView bgColor={this._bgColor} bounds={this.centralBranchViewController.bounds}>
+        <BranchViewController></BranchViewController>
+      </SheetView>
+    )
+  }
 }

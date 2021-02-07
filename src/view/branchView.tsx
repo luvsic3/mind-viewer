@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import View from './view'
 import ViewType from '../common/constants/views'
 import { G } from '@svgdotjs/svg.js'
@@ -17,8 +18,7 @@ export interface BranchViewBackboneData extends BranchViewData {
   fillColor: string
 }
 
-export default class BranchView extends View {
-
+export default class BranchView extends View<BranchViewData> {
   type = ViewType.BRANCH
 
   spacingMajor: number
@@ -26,20 +26,17 @@ export default class BranchView extends View {
 
   private readonly _svg: G
 
-  constructor() {
-    super()
-    this._svg = new G().data('name', 'branch')
+  constructor(props: BranchViewData) {
+    super(props)
   }
 
-  render(parentView: View, data: BranchViewData) {
-    if (!parentView) return
-
-    const { position } = data
-    if (position) {
-      this._svg.translate(position.x, position.y)
-    }
-
-    parentView.appendChild(this)
+  render() {
+    const { position } = this.props;
+    return (
+      <g name="branch"  transform={`translate(${position.x},${position.y})`}>
+        
+      </g>
+    )
   }
 
   renderFishbone(data: BranchViewBackboneData) {
@@ -100,9 +97,4 @@ export default class BranchView extends View {
       }
     }
   }
-
-  get content() {
-    return this._svg
-  }
-
 }

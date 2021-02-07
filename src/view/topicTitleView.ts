@@ -12,5 +12,4 @@ export default class TopicTitleView extends TextView {
   layout() {
     this.layoutWorker.work()
   }
-
 }

@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import ViewController from './viewController'
 import TopicViewController from './topicViewController'
 import SheetViewController from './sheetViewController'
@@ -37,8 +38,7 @@ export default class BranchViewController extends ViewController {
     super(parent)
     this._topic = topic
     this._children = {}
-
-    this._view = new BranchView()
+    this.init()
   }
   
   init() {
@@ -207,9 +207,9 @@ export default class BranchViewController extends ViewController {
   get model(): Topic {
     return this._topic
   }
-
-  get view(): BranchView {
-    return this._view
+  render () {
+    return (
+      <BranchView></BranchView>
+    )
   }
-
 }

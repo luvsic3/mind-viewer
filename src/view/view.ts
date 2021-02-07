@@ -1,9 +1,9 @@
 import ViewType from '../common/constants/views'
 import Size from '../utils/size'
 import { isSameSize } from '../utils/bounds'
-import { Element } from '@svgdotjs/svg.js'
+import { Component } from 'preact'
 
-export default abstract class View {
+export default abstract class View<P = any> extends Component<P> {
 
   abstract readonly type: ViewType
 
@@ -12,9 +12,9 @@ export default abstract class View {
 
   private _prefSize: Size
 
-  constructor() { }
-
-  abstract get content(): Element
+  constructor(props?: P) { 
+    super(props)
+  }
 
   set size(size: Size) {
     if (this._size && isSameSize(this._size, size)) return
@@ -37,7 +37,4 @@ export default abstract class View {
   get preferredSize(): Size {
     return this._prefSize
   }
-
-  appendChild(view: View) { } 
-
 }

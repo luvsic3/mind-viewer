@@ -1,3 +1,4 @@
+import { h } from 'preact';
 import View from './view'
 import { Tspan, G, Text } from '@svgdotjs/svg.js'
 import FontInfo from '../utils/fontInfo'
@@ -12,7 +13,11 @@ const ALIGN_MAP = {
   'right': 'end',
 }
 
-export default abstract class TextView extends View {
+interface TextViewProps {
+  contentName: string
+}
+
+export default abstract class TextView extends View<TextViewProps> {
 
   private _text: string
 
@@ -25,15 +30,13 @@ export default abstract class TextView extends View {
   textPositionDirty = false
 
   private readonly _svg: G
-  private _titleText: Text
 
   fontInfo: FontInfo
 
   private _bounds: Bounds = { x: 0, y: 0, width: 0, height: 0 }
 
-  constructor(contentName: string) {
-    super()
-    this._svg = new G().data('name', contentName)
+  constructor(props: TextViewProps) {
+    super(props)
   }
 
   set text(text: string) {
@@ -82,32 +85,26 @@ export default abstract class TextView extends View {
     return this._textPosition
   }
 
-  render(parent: View) {
-    if (!parent) return
-
-    this._titleText = this._svg.text(this.text)
-
+  render() {
+    const { props, text } = this;
     const { textColor, textDecoration, textAlign, fontSize, fontFamily, fontWeight, fontStyle } = this.fontInfo
+    const { contentName } = props;
 
     if (this.textFnDirty) {
       this._titleText.text(this.textFn)
       this.textFnDirty = false
     }
     
-    if (textColor) { this._titleText.attr({ fill: textColor }) }
-    if (textDecoration) { this._titleText.attr({ 'text-decoration': textDecoration }) }
-    if (textAlign) { this._titleText.attr({ 'text-anchor': ALIGN_MAP[textAlign] }) }
-    if (fontSize) { this._titleText.attr({ 'font-size': fontSize }) }
-    if (fontFamily) { this._titleText.attr({ 'font-family': fontFamily }) }
-    if (fontWeight) { this._titleText.attr({ 'font-weight': fontWeight }) }
-    if (fontStyle) { this._titleText.attr({ 'font-style': fontStyle }) }
-    
     if (this.textPositionDirty) {
       this._titleText.translate(this.textPosition.x, this.textPosition.y)
       this.textPositionDirty = false
     }
 
-    parent.appendChild(this)
+    return (
+      <g name={contentName}>
+        <text fill={textColor} textDecoration={textDecoration} textAnchor={ALIGN_MAP[textAlign]} fontSize={fontSize} fontFamily={fontFamily} fontWeight={fontWeight} fontStyle={fontStyle}>{text}</text>
+      </g>
+    )
   }
 
   get content() {
@@ -117,5 +114,4 @@ export default abstract class TextView extends View {
   get layoutWorker() {
     return new TitleLayoutWorker(this)
   }
-
 }
