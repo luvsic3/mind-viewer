@@ -2,9 +2,10 @@ import Size from './size'
 import Position from './position'
 
 interface Bounds {
-  // top left corner of rect
+  // 矩形左上顶点
   x: number
   y: number
+  // 当前 branch 和子 branch 的宽高
   width: number
   height: number
 }

@@ -26,6 +26,7 @@ export default abstract class BaseMap extends AbstractStructure {
     const minSumTopicSpacing = this.getMinSumTopicSpacing(children, bounds)
     let sumTopicSpacing = minSumTopicSpacing
     const yPosRelativeToFirstChild = [0]
+    // 计算 children Y 坐标
     children.forEach((child, index) => {
       if (index === 0) return
       const prev = children[index - 1]

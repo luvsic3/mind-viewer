@@ -1,5 +1,5 @@
 export default interface Position {
-  // center point of rect
+  // 矩形中间点
   x: number
   y: number
 }

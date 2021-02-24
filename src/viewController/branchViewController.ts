@@ -57,7 +57,8 @@ export default class BranchViewController extends ViewController {
       })
     }
     addSubbranches(TopicType.ATTACHED)
-
+    
+    // 深度优先遍历
     branchLayout(this)
 
     if (this.isCentralBranch()) {
@@ -131,15 +132,21 @@ export default class BranchViewController extends ViewController {
     }
   }
 
+  /**
+   * 递归遍历树，在递归前更新当前 branch 位置，递归后更新 parent branch 的 bounds
+   */
   private _initInner() {
     this._updatePosition()
 
     this.bounds.x = this.position.x - this.bounds.width / 2
     this.bounds.y = this.position.y - this.bounds.height / 2
-
+    console.log('before', this.model.title);
+    
     this.getChildrenByType(TopicType.ATTACHED).forEach(child => {
       child._initInner()
     })
+
+    console.log('after', this.model.title);
 
     if (this.parent instanceof BranchViewController) {
       this.parent.bounds = merge(this.bounds, this.parent.bounds)
