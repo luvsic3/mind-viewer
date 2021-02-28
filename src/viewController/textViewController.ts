@@ -5,7 +5,6 @@ import FontInfo from '../utils/fontInfo'
 export default abstract class TextViewController extends ViewController {
 
   render() {
-    this.view.render(this.parent.view)
   }
 
   set text(text: string) {

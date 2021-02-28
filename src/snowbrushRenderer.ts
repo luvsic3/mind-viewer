@@ -1,6 +1,5 @@
 import { SheetData } from './model/sheet'
 import SheetViewController from './viewController/sheetViewController'
-import { Svg } from '@svgdotjs/svg.js'
 import { Workbook } from './model/workbook'
 
 export interface RenderOptions {
@@ -32,20 +31,9 @@ export class SnowbrushRenderer {
 
     this._sheetViewController = new SheetViewController(sheet)
     this._sheetViewController.init()
-
-    return this._sheetViewController.getCanvas()
-  }
-
-  get svg(): Svg {
-    return this._sheetViewController?.getCanvas()
   }
 
   get bounds() {
     return this._sheetViewController?.centralBranchViewController.bounds
   }
-
-  transform(x: number, y: number) {
-    this._sheetViewController.transform(x, y)
-  }
-
 }

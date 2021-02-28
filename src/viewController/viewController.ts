@@ -11,7 +11,6 @@ export default abstract class ViewController {
   }
 
   abstract get type(): ViewControllerType
-  abstract get view(): View
   abstract get model(): Model
 
   get parent(): ViewController {

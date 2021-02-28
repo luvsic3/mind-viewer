@@ -1,7 +1,6 @@
 import ViewType from '../common/constants/views'
 import Size from '../utils/size'
 import { isSameSize } from '../utils/bounds'
-import { Element } from '@svgdotjs/svg.js'
 
 export default abstract class View {
 
@@ -13,8 +12,6 @@ export default abstract class View {
   private _prefSize: Size
 
   constructor() { }
-
-  abstract get content(): Element
 
   set size(size: Size) {
     if (this._size && isSameSize(this._size, size)) return

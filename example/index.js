@@ -1,6 +1,5 @@
 import contentData from './content.json'
-import JSZip from 'jszip'
-import { loadFromXMind, SnowbrushRenderer } from '../src/index'
+import { SnowbrushRenderer } from '../src/index'
 
 load(contentData)
 
@@ -13,17 +12,6 @@ document.getElementById('input-dialog').addEventListener('input', function() {
   const file = inputEle.files[0]
   const fileName = inputEle.value
   const reader = new FileReader()
-  reader.onload = e => {
-    const jszip = new JSZip()
-    return Promise.all([
-      Promise.resolve(fileName),
-      jszip.loadAsync(e.target.result).then(zip => {
-        loadFromXMind(zip).then(result => {
-          load(result.sheets)
-        })
-      })
-    ])
-  }
 
   reader.readAsArrayBuffer(file)
 })
@@ -34,6 +22,7 @@ document.getElementById('open-file').addEventListener('click', function(){
 })
 
 function load(data) {
+  console.log('data :>> ', data);
   const container = document.getElementById('page-content')
   if (container.children.length > 0) {
     container.innerHTML = ''
@@ -41,6 +30,8 @@ function load(data) {
 
   const renderer = new SnowbrushRenderer(data)
   renderer.render()
+  
+  console.log('render :>> ', (renderer._sheetViewController._centralBranchViewController));
   const rendererBounds = renderer.bounds
 
   const clientWidth = container.clientWidth
@@ -51,10 +42,16 @@ function load(data) {
   const rendererContainer = document.createElement('div')
   rendererContainer.setAttribute('style', `width: ${width * 2}; height: ${height * 2}; position: relative;`)
   rendererContainer.className = 'sheet-container'
-  renderer.svg.addTo(rendererContainer)
-  rendererContainer.style.backgroundColor = renderer.svg.node.style.backgroundColor
   container.append(rendererContainer)
   
-  renderer.transform(width + rendererBounds.x, height + rendererBounds.y)
   container.scrollTo(width - clientWidth / 2, height - clientHeight / 2)
+}
+
+const Keys = ['bounds', 'position', 'model']
+
+function stringify(obj) {
+  return JSON.stringify(obj, function (key, val) {
+    if (key && Keys.includes(key)) return JSON.stringify(val);
+    return undefined;
+  })
 }

@@ -27,8 +27,6 @@ export default class SheetViewController extends ViewController {
     this._centralBranchViewController = new BranchViewController(this._sheet.rootTopic, this)
     this._centralBranchViewController.sheetViewController = this
     this._centralBranchViewController.init()
-
-    this._view.render({ bgColor: this._bgColor, bounds: this._centralBranchViewController.bounds })
   }
 
   private _initStyle() {
@@ -63,17 +61,4 @@ export default class SheetViewController extends ViewController {
   get centralBranchViewController() {
     return this._centralBranchViewController
   }
-
-  get content() {
-    return this.view.content
-  }
-
-  getCanvas() {
-    return this.view.canvas
-  }
-
-  transform(x: number, y: number) {
-    this.view.canvas.translate(x, y)
-  }
-
 }

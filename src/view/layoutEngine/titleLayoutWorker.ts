@@ -1,7 +1,6 @@
 import TextView from '../textView'
 import { str2NodesArr, getNodesSize } from '../../utils/stringNodes'
 import FontInfo from '../../utils/fontInfo'
-import { Text } from '@svgdotjs/svg.js'
 import { TextTransform } from '../../common/constants/styles'
 
 const ATTR_MAP = {
@@ -51,17 +50,6 @@ export default class TitleLayoutWorker {
     })
 
     const lineHeight = Math.floor(Number.parseInt(fontInfo.fontSize || '0') * 1.34)
-
-    view.textFn = ((add: Text) => {
-      nodesArr.forEach((nodes, j) => {
-        const dy = (j === 0) ? parseInt(fontInfo.fontSize || '0') : lineHeight
-        nodes.forEach((node, i) => {
-          const attr = transToAttr(node.style)
-          const tspan = add.tspan('\u200E' + node.content).attr(attr)
-          if (i === 0) { tspan.dy(dy).x(0) }
-        })
-      })
-    })
 
     const height = nodesArr.length * lineHeight
     const width = nodesArr.reduce((maxWidth, nodes) => {

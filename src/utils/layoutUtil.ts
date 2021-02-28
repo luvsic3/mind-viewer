@@ -5,7 +5,7 @@ export default function branchLayout(branch: BranchViewControler) {
 
   const structObj = branch.getStructureObject()
 
-  // 直接将 topic bounds 赋值 branch bounds
+  // 计算 branch bounds 和 children 的 position
   const bounds = Object.assign({}, branch.topicViewController.bounds)
   structObj.calcAttachedChildrenPos(branch, bounds)
   structObj.specialDeal(branch, bounds) // for fishbone structure.

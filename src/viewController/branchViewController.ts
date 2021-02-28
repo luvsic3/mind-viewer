@@ -122,8 +122,6 @@ export default class BranchViewController extends ViewController {
       fillColor: StyleManager.getStyleValue(this, StyleKey.FILL_COLOR)
     }
 
-    this.view.renderFishbone(data)
-
     this.fishbondBounds = {
       x: dire === Direction.LEFT ? 0 : -100,
       y: topicBounds.y,
@@ -154,9 +152,6 @@ export default class BranchViewController extends ViewController {
 
     this.connectionViewController.init()
     this.topicViewController.render()
-
-    let position = { x: this.position.x, y: this.position.y }
-    this.view.render(this.sheetViewController.view, { position })
   }
 
   private _updatePosition() {

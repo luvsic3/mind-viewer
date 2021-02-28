@@ -2,7 +2,6 @@ import View from './view'
 import ViewType from '../common/constants/views'
 import Position, { isSamePosition } from '../utils/position'
 import { getTopicShape } from './renderEngine/topicShape'
-import { G, Path } from '@svgdotjs/svg.js'
 
 export default class TopicView extends View {
 
@@ -40,25 +39,8 @@ export default class TopicView extends View {
   private _topicInnerElementPosition: Position
   topicInnerElementPositionDirty = false
 
-  private readonly _svg: G
-  private _topicShape: Path
-  private _topicShapeFill: Path
-  private _topicContent: G
-  private _topicInnerElementGroup: G
-
   constructor() {
     super()
-    this._svg = new G().data('name', 'topic')
-    this._initSVGStructure()
-  }
-
-  private _initSVGStructure() {
-    const topicShapeGroup = this._svg.group().data('name', 'topic-shape-group')
-    this._topicShape = topicShapeGroup.path().data('name', 'topic-shape')
-    this._topicShapeFill = topicShapeGroup.path().data('name', 'topic-shape-fill')
-
-    this._topicContent = topicShapeGroup.group().data('name', 'topic-content')
-    this._topicInnerElementGroup = this._topicContent.group().data('name', 'inner-element-group')
   }
 
   set lineColor(lineColor: string) {
@@ -125,44 +107,4 @@ export default class TopicView extends View {
   get topicShape() {
     return getTopicShape(this.topicShapeClass)
   }
-
-  render(parentView: View) {
-    if (!parentView) return
-
-    // Topic Shape
-    if (this.topicShapePathDirty) {
-      this._topicShape.attr({ d: this.topicShapePath })
-    }
-
-    if (this.fillColorDirty) {
-      this._topicShape.attr({ fill: this.fillColor, stroke: this.borderColor })
-    }
-    this._topicShape.attr({ 'stroke-width': this.borderWidth })
-
-    // Topic Shape Fill 
-    // this._topicShapeFill.attr({ d: topicShapePath })
-    this._topicShapeFill.attr({ fill: this.fillColor, stroke: '#ffffff' })
-
-    if (this.topicContentPositionDirty) {
-      //this.topicContentPosition
-      this._topicContent.translate(this.topicContentPosition.x, this.topicContentPosition.y)
-      this.topicContentPositionDirty = false
-    }
-
-    parentView.appendChild(this)
-  }
-
-  appendChild(view: View) {
-    const { type, content } = view
-    switch (type) {
-      case ViewType.TOPIC_TITLE: {
-        this._topicInnerElementGroup.add(content)
-      }
-    }
-  }
-
-  get content() {
-    return this._svg
-  }
-
 }

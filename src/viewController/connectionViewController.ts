@@ -39,8 +39,6 @@ export default class ConnectionViewController extends ViewController {
       if (isRootBranch(startBranch) && isAttachedBranch(endBranch) && isMapStructure(startBranch)) {
         data.maskInfo = getMaskInfo(startBranch)
       }
-      
-      this.view.render(data, endBranch.sheetViewController.view)
     }
   }
 

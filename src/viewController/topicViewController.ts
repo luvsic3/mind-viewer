@@ -36,7 +36,6 @@ export default class TopicViewController extends ViewController {
 
   render() {
     this.titleViewController.render()
-    this.view.render(this.parent.view)
   }
 
   private _initStyle() {
